@@ -2,15 +2,22 @@
 
 from config import Config
 
+from typing import TypedDict
 from twilio.rest import Client
 
-def send_twilio(phone, content):
-	account_sid = Config.vars['twilio']['sid']
-	auth_token = Config.vars['twilio']['token']
+def twilio_gateway(
+			phone: str,
+			content: str,
+			twilio_auth: TypedDict('GATEWAY_TWILIO_AUTH', sid=str, token=str, no=str)=None
+		):
+	if not twilio_auth:
+		twilio_auth = Config.vars['twilio']
+	account_sid = twilio_auth['sid']
+	auth_token = twilio_auth['token']
 	client = Client(account_sid, auth_token)
 	message = client.messages.create(
 		body=content,
-		from_=Config.vars['twilio']['no'],
+		from_=twilio_auth['no'],
 		to=phone
 	)
 	return message
@@ -20,6 +27,6 @@ def config():
 		'version':5.8,
 
 		'gateways':{
-			'twilio':send_twilio
+			'twilio':twilio_gateway
 		}
 	}

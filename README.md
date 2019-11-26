@@ -16,9 +16,10 @@ This repo is a [LIMP](https://github.com/masaar/limp) [Package](https://github.c
 3. Twilio gateway requires following args:
    1. `phone`: Target phone number using international format with prefixed `+`. Type `str`.
    2. `content`: Message body. Type `str`.
-4. Use Twilio gateway using LIMP Gateway Controller:
+4. Twilio gateway accepts optional arg, namely `twilio_auth`, replicating `twilio` value in `vars Config Attr` for dynamic Twilio API credentials.
+5. Use Twilio gateway using LIMP Gateway Controller:
 ```python
 from gateway import Gateway
 
-Gateway.send('twilio', phone=phone, content=content)
+Gateway.send(gateway='twilio', phone=phone, content=content)
 ```
